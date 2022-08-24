@@ -26,7 +26,10 @@ export default function Register() {
         phoneNo: ""
     });
     const [alert, setAlert] = useState(false);
+    const [emailerror,setEmailerror] = useState(false);
+    const [passerror, setPasswordErr] = useState(false);
     const [error,setError] = useState(false);
+    const [errMsg,setPassErrMsg] = useState("");
     function submit(e){
         if(data == null){
             setError(true);
@@ -44,17 +47,62 @@ export default function Register() {
                 console.log(res);
             });
         }
+        
     }
+    function isValidEmail(email) {
+        return /\S+@\S+\.\S+/.test(email);
+      }
     function handle(e) {
         const newdata = { ...data };
         newdata[e.target.id] = e.target.value;
         setData(newdata);
+        if (!isValidEmail(data.email)) {
+            setEmailerror(true)
+            console.log(data.email);
+            console.log(emailerror);
+          } else {
+            setEmailerror(false)
+            console.log(data.email);
+            console.log(emailerror);
+          }
+          if(e.target.id==='password'){
+            const uppercaseRegExp   = /(?=.*?[A-Z])/;
+            const lowercaseRegExp   = /(?=.*?[a-z])/;
+            const digitsRegExp      = /(?=.*?[0-9])/;
+            const specialCharRegExp = /(?=.*?[#?!@$%^&*-])/;
+            const minLengthRegExp   = /.{8,}/;
+            const passwordInputValue = data.password;
+            const passwordLength =      passwordInputValue.length;
+            const uppercasePassword =   uppercaseRegExp.test(passwordInputValue);
+            const lowercasePassword =   lowercaseRegExp.test(passwordInputValue);
+            const digitsPassword =      digitsRegExp.test(passwordInputValue);
+            const specialCharPassword = specialCharRegExp.test(passwordInputValue);
+            const minLengthPassword =   minLengthRegExp.test(passwordInputValue);
+            setPasswordErr(true);
+            if(passwordLength===0){
+                    setPassErrMsg("Password is empty");
+            }else if(!uppercasePassword){
+                    setPassErrMsg("At least one Uppercase");
+            }else if(!lowercasePassword){
+                    setPassErrMsg("At least one Lowercase");
+            }else if(!digitsPassword){
+                    setPassErrMsg("At least one digit");
+            }else if(!specialCharPassword){
+                    setPassErrMsg("At least one Special Characters");
+            }else if(!minLengthPassword){
+                    setPassErrMsg("At least minumum 8 characters");
+            }else{
+              setPasswordErr(false);
+                setPassErrMsg("");
+            }
+            }
+
       }
     
       function validate() {
         if (
           data.name &&
-          data.email &&
+          !emailerror &&
           data.phoneNo &&
           data.password
         ) {
@@ -98,7 +146,7 @@ export default function Register() {
               type="email"
               label="Email"
               variant="outlined"
-              error={error}
+              error={emailerror}
               value={data ? data.email : ""}
               InputProps={{
                 startAdornment: (
@@ -115,16 +163,17 @@ export default function Register() {
               fullWidth
               margin="dense"
               style={{ textDecorationColor: "black" }}
-                onChange={(e) => 
-                  handle(e)
-                }
+                onChange={(e) => {
+                    handle(e);
+                    isValidEmail();
+                    
+                }}
             />
             <TextField
               id="name"
               type="text"
               label="Username"
               variant="outlined"
-              error={error}
               value={data ? data.name : ""}
               InputProps={{
                 startAdornment: (
@@ -175,6 +224,8 @@ export default function Register() {
               label="Password"
               variant="outlined"
               type="password"
+              helperText={errMsg}
+              error={passerror}
               value={data ? data.password : ""}
               fullWidth
               margin="dense"
