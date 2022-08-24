@@ -34,6 +34,8 @@ export default function Register() {
     const [error,setError] = useState(false);
     const [visible,setVisible] = useState(false);
     const [conErr, setConErr] = useState(false);
+    const [phoneerror,setPhoneErr] = useState(false);
+    const [phnerrMsg,setphnErrMsg] = useState("");
     const [conErrMsg,setConErrMsg] = useState("");
     const [errMsg,setPassErrMsg] = useState("");
     function submit(e){
@@ -58,18 +60,18 @@ export default function Register() {
     function isValidEmail(email) {
         return /\S+@\S+\.\S+/.test(email);
       }
+
+      function isValidPhone(phone) {
+        return  /^\(?([9]{1})\)?([0-9]{9})$/.test(phone); 
+      }
     function handle(e) {
         const newdata = { ...data };
         newdata[e.target.id] = e.target.value;
         setData(newdata);
         if (!isValidEmail(data.email)) {
             setEmailerror(true)
-            console.log(data.email);
-            console.log(emailerror);
           } else {
             setEmailerror(false)
-            console.log(data.email);
-            console.log(emailerror);
           }
           if(e.target.id==='password'){
             const uppercaseRegExp   = /(?=.*?[A-Z])/;
@@ -112,6 +114,14 @@ export default function Register() {
               setConErr(true);
               setConErrMsg("password doesn't match")
             }
+          }
+          if(!isValidPhone(data.phoneNo)){
+              setPhoneErr(true);
+              setphnErrMsg("phone number is not valid")
+          }
+          else{
+            setPhoneErr(false);
+            setphnErrMsg("");
           }
       }
     
@@ -215,6 +225,8 @@ export default function Register() {
               label="Phone Number"
               variant="outlined"
               type="tel"
+              error={phoneerror}
+              helperText={phnerrMsg}
               value= {data ? data.phoneNo : ""}
               fullWidth
               margin="dense"
