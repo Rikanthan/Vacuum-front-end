@@ -3,6 +3,9 @@ import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import CallIcon from "@mui/icons-material/Call";
 import LockOpen from "@mui/icons-material/LockOpen";
+import Visibility from '@mui/icons-material/Visibility';
+import IconButton from '@mui/material/IconButton';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
   InputAdornment,
   Paper,
@@ -29,6 +32,9 @@ export default function Register() {
     const [emailerror,setEmailerror] = useState(false);
     const [passerror, setPasswordErr] = useState(false);
     const [error,setError] = useState(false);
+    const [visible,setVisible] = useState(false);
+    const [conErr, setConErr] = useState(false);
+    const [conErrMsg,setConErrMsg] = useState("");
     const [errMsg,setPassErrMsg] = useState("");
     function submit(e){
         if(data == null){
@@ -95,8 +101,18 @@ export default function Register() {
               setPasswordErr(false);
                 setPassErrMsg("");
             }
+          }
+          if(e.target.id === 'con_password'){
+            if(e.target.value === data.password){
+              setConErr(false);
+              setConErrMsg("");
+            }else{
+              console.log(e.target.value);
+              console.log(data.password);
+              setConErr(true);
+              setConErrMsg("password doesn't match")
             }
-
+          }
       }
     
       function validate() {
@@ -223,7 +239,7 @@ export default function Register() {
               id="password"
               label="Password"
               variant="outlined"
-              type="password"
+              type= {visible ? "text" : "password"}
               helperText={errMsg}
               error={passerror}
               value={data ? data.password : ""}
@@ -234,6 +250,17 @@ export default function Register() {
                   <InputAdornment position="start">
                     <LockIcon/>
                   </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() =>  setVisible(!visible)}
+                        edge="end"
+                      >
+                        {visible ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
                 ),
                 style: {
                   fontFamily: "nunito",
@@ -250,6 +277,8 @@ export default function Register() {
               id="con_password"
               label="Confirm Password"
               type="password"
+              error={conErr}
+              helperText={conErrMsg}
               variant="outlined"
               fullWidth
               margin="dense"
@@ -266,27 +295,10 @@ export default function Register() {
                 },
               }}
               style={{ paddingBottom: 0 }}
-              //   onChange={(e) => {
-              //     setPassword(e.target.value);
-              //   }}
+                onChange={(e) => {
+                  handle(e);
+                }}
             />
-            
-            {/* <FormGroup>
-              <FormControlLabel
-                control={<Checkbox defaultChecked />}
-                label="I want to receive marketing promotions and updates via email."
-                style={{ textAlign: "left" }}
-              />
-            </FormGroup>
-            <p style={{ textAlign: "left", fontSize: 14 }}>
-              By clicking Sign Up, you agree to our
-              <span>
-                &nbsp;
-                <Link>Term of Use</Link>
-              </span>
-              <span>&nbsp;and&nbsp;</span>
-              <Link>Privacy Policy</Link>
-            </p> */}
             <Button
               variant="contained"
               color="primary"
