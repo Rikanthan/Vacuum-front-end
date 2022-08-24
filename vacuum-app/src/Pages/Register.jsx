@@ -38,6 +38,7 @@ export default function Register() {
     const [phnerrMsg,setphnErrMsg] = useState("");
     const [conErrMsg,setConErrMsg] = useState("");
     const [errMsg,setPassErrMsg] = useState("");
+    const [emailErrMsg, setEmailErrMsg] = useState("");
     function submit(e){
         if(data == null){
             setError(true);
@@ -70,7 +71,9 @@ export default function Register() {
         setData(newdata);
         if (!isValidEmail(data.email)) {
             setEmailerror(true)
+            setEmailErrMsg("please enter valid email");
           } else {
+            setEmailErrMsg("");
             setEmailerror(false)
           }
           if(e.target.id==='password'){
@@ -174,6 +177,7 @@ export default function Register() {
               variant="outlined"
               error={emailerror}
               value={data ? data.email : ""}
+              helperText={emailErrMsg}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -201,6 +205,8 @@ export default function Register() {
               label="Username"
               variant="outlined"
               value={data ? data.name : ""}
+              error={!data.name ? true : false}
+              helperText={data.name ? "":"username is empty"}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
