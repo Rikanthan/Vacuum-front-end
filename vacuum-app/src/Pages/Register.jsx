@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import CallIcon from "@mui/icons-material/Call";
@@ -39,6 +39,22 @@ export default function Register() {
     const [conErrMsg,setConErrMsg] = useState("");
     const [errMsg,setPassErrMsg] = useState("");
     const [emailErrMsg, setEmailErrMsg] = useState("");
+    const [userError, setuserError] = useState(false);
+    const [userErrorMsg ,setuserErrorMsg] = useState("");
+    const [usernames, setUsernames] = useState([]);
+    
+    useEffect(()=> {
+      async function fetchUsers () {
+        await axios.get("http://localhost:8081/find")
+        .then((res)=>{
+          console.log(res.data)
+          setUsernames(res.data);
+          console.log(usernames);
+       })
+      }
+      fetchUsers()
+    },[])
+
     function submit(e){
         if(data == null){
             setError(true);
@@ -112,19 +128,37 @@ export default function Register() {
               setConErr(false);
               setConErrMsg("");
             }else{
-              console.log(e.target.value);
-              console.log(data.password);
               setConErr(true);
               setConErrMsg("password doesn't match")
             }
           }
-          if(!isValidPhone(data.phoneNo)){
+          if(e.target.id === 'phoneNo' && !isValidPhone(data.phoneNo)){
               setPhoneErr(true);
               setphnErrMsg("phone number is not valid")
           }
           else{
             setPhoneErr(false);
             setphnErrMsg("");
+          }
+          if(e.target.id === 'name'){
+            
+            if(data.name.length > 0 ){
+              if(usernames.includes(e.target.value)){
+                console.log("gotit")
+                setuserError(true);
+                setuserErrorMsg("username already exists");
+              }
+              else{
+                console.log(usernames);
+                console.log(data.name)
+                setuserError(false);
+                setuserErrorMsg("");
+              }
+            }
+            else{
+                setuserError(true);
+                setuserErrorMsg("username can't be empty")
+            }
           }
       }
     
@@ -205,8 +239,8 @@ export default function Register() {
               label="Username"
               variant="outlined"
               value={data ? data.name : ""}
-              error={!data.name ? true : false}
-              helperText={data.name ? "":"username is empty"}
+              error={userError}
+              helperText={userErrorMsg}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
