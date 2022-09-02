@@ -57,7 +57,7 @@ export default function ServiceCenterCard(properties) {
         alt="Service center image"
       />
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton aria-label="add to favorites" onClick={properties.onpress}>
           <AppRegistration />
         </IconButton>
         <ExpandMore

@@ -1,8 +1,10 @@
-import { CircularProgress, Grid } from "@mui/material";
+import { Alert, CircularProgress, Grid, Snackbar } from "@mui/material";
 import React, {useEffect,useState} from "react"
 import ServiceCenterCard from "../Widgets/Cards/ServiceCenterCard";
 import axios from "axios";
 import ServiceCenterData from "../Constants/ServiceCenterData";
+
+
 // {
 //     id: "",
 //     name: "",
@@ -21,6 +23,7 @@ import ServiceCenterData from "../Constants/ServiceCenterData";
 export default function ShowServiceCenter(){
     const [serviceCenters,setServiceCenters] = useState([]); 
     const [loader, setLoader] = useState(true);
+    const [open, setOpen] = useState(false);
     useEffect(()=> {
         async function fetchServiceCenters () {
           await axios.get("http://localhost:8086/servicecenter")
@@ -38,6 +41,7 @@ export default function ShowServiceCenter(){
       spacing={2}
       direction="row"
       justifyContent="center"
+      margin={2}
     >
       {(serviceCenters.map((element, index) => {
         {
@@ -53,11 +57,7 @@ export default function ShowServiceCenter(){
                 landMark = {element.address.landMark}
                 pinCode = {element.address.pinCode}
                 state = {element.address.state}
-                onpress ={() => {
-                //   setClick(true);
-                //   setIdx(index);
-                }}
-
+                onpress ={() => setOpen(true)}
               >
               </ServiceCenterCard>
             ) :
@@ -65,6 +65,15 @@ export default function ShowServiceCenter(){
         }
       }))
       }
+      <Snackbar
+        open={open}
+        autoHideDuration={2000}
+        message="Note archived"
+      >
+        <Alert severity="success" sx={{ width: '100%' }}>
+          Booking started!
+        </Alert>
+        </Snackbar>
     </Grid>
         </>
     )
