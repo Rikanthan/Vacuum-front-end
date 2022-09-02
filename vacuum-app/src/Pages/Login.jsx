@@ -113,15 +113,8 @@ export default function Login() {
           alignItems: "left",
         }}
       >
-        <img
-          src="/images/aara.png"
-          width="110"
-          height="95"
-          alt="logo"
-          align="left"
-        />
       </div>
-      <div style={{ paddingTop: 93 }}>
+      <div style={{ paddingTop: 10 }}>
         <Paper
           elevation={3}
           style={{
@@ -217,7 +210,7 @@ export default function Login() {
             >
             <Link underline="none">Forgot password?</Link>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} align='left'/>
-            <Link underline="none">Don't have an account? Register</Link>
+            <Link href={"/register"} >Don't have an account? Register</Link>
             </Grid>
           </form>
         </Paper>

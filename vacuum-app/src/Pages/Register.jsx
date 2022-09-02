@@ -47,9 +47,7 @@ export default function Register() {
       async function fetchUsers () {
         await axios.get("http://localhost:8081/find")
         .then((res)=>{
-          console.log(res.data)
           setUsernames(res.data);
-          console.log(usernames);
        })
       }
       fetchUsers()
@@ -85,7 +83,7 @@ export default function Register() {
         const newdata = { ...data };
         newdata[e.target.id] = e.target.value;
         setData(newdata);
-        if (!isValidEmail(data.email)) {
+        if (e.target.id==='email' && !isValidEmail(e.target.value)) {
             setEmailerror(true)
             setEmailErrMsg("please enter valid email");
           } else {
@@ -98,7 +96,7 @@ export default function Register() {
             const digitsRegExp      = /(?=.*?[0-9])/;
             const specialCharRegExp = /(?=.*?[#?!@$%^&*-])/;
             const minLengthRegExp   = /.{8,}/;
-            const passwordInputValue = data.password;
+            const passwordInputValue = e.target.value;
             const passwordLength =      passwordInputValue.length;
             const uppercasePassword =   uppercaseRegExp.test(passwordInputValue);
             const lowercasePassword =   lowercaseRegExp.test(passwordInputValue);
@@ -142,15 +140,12 @@ export default function Register() {
           }
           if(e.target.id === 'name'){
             
-            if(data.name.length > 0 ){
+            if(e.target.value.length > 0 ){
               if(usernames.includes(e.target.value)){
-                console.log("gotit")
                 setuserError(true);
                 setuserErrorMsg("username already exists");
               }
               else{
-                console.log(usernames);
-                console.log(data.name)
                 setuserError(false);
                 setuserErrorMsg("");
               }
@@ -361,7 +356,7 @@ export default function Register() {
             >
               Register
             </Button>
-            <Link>Already have an account? Login</Link>
+            <Link href="/login">Already have an account? Login</Link>
           </form>
         </Paper>
       </div>
