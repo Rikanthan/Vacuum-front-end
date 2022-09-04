@@ -5,6 +5,7 @@ import Register from './Pages/Register';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ServiceCenterCard from './Widgets/Cards/ServiceCenterCard';
 import ShowServiceCenter from './Pages/ShowServiceCenter';
+import ShowCalendar from './Pages/ShowCalender';
 
 class App extends Component {
   render() {
@@ -13,7 +14,7 @@ class App extends Component {
         <Router>
           <Routes>
             <Route path='/' exact element={
-              <ShowServiceCenter/>}>
+              <ShowCalendar/>}>
             </Route>
             <Route path="/login" element={<Login/>}>
             </Route>
