@@ -6,6 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Divider } from '@mui/material';
+import { blue } from '@mui/material/colors';
 
 const bull = (
   <Box
@@ -17,8 +18,9 @@ const bull = (
 );
 
 export default function Day(week) {
+  const color = week.today ? "blue" : "white";
   return (
-    <Card sx={{ width: 100 }} style = {{margin: 5}}>
+    <Card sx={{ width: 100 }} style = {{margin: 5,backgroundColor: color}} >
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           {week.day}

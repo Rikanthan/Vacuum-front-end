@@ -1,14 +1,18 @@
-import { Alert, CircularProgress, Grid, Snackbar } from "@mui/material";
+import { Alert, CircularProgress, Grid, IconButton, Snackbar } from "@mui/material";
 import React, {useEffect,useState} from "react"
 import axios from "axios";
 import Day from "../Widgets/Cards/Calender";
+import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 
 
 const dayNames = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 
 export default function ShowCalendar(){
   const weeks = [];
+  
 var curr = new Date;
+const [currday,setCurrday] = useState(curr.getDay()-1);
+console.log(currday);
 var first = curr.getDate() - curr.getDay();
 for(var i = 1; i<=7; i++){
   var next = first + i;
@@ -24,18 +28,32 @@ for(var i = 1; i<=7; i++){
       justifyContent="center"
       margin={2}
     >
+      <IconButton onClick={()=> {
+        if(currday <= 0)
+        {
+          setCurrday(0);
+          console.log(currday);
+        }else{
+          setCurrday(currday-1);
+          console.log(currday);
+        }
+        }
+        }>
+        <KeyboardArrowLeft/>
+      </IconButton>
       {(weeks.map((element, index) => {
         {
             
-          return (index < 8) ?
+          return (index < 7) ?
             (
               <Day
-               day = {dayNames[index]}
+                day = {dayNames[index]}
                 date = {element.getDate()}
+                today = { index === currday ? true : false}
                 />
             ) :
             <CircularProgress/>
-        }
+          }
       }))
       }
       {/* <Snackbar
@@ -47,6 +65,20 @@ for(var i = 1; i<=7; i++){
           Booking started!
         </Alert>
         </Snackbar> */}
+        <IconButton onClick={()=> {
+          if(currday >= 6)
+        {
+          setCurrday(6);
+          console.log(currday);
+        }
+        else{
+          setCurrday(currday+1)}
+          console.log(currday);
+        }
+        
+        }>
+        <KeyboardArrowRight/>
+      </IconButton>
     </Grid>
         </>
     )
