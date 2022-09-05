@@ -23,21 +23,16 @@ export default function ShowCalendar() {
   }
   return (
     <>
-      <Grid
-        container
-        spacing={2}
-        direction="column"
-        justifyContent="center"
-        margin={2}
-      >
+     
         <Grid
           container
           spacing={2}
           direction="row"
           justifyContent="center"
+          alignItems="flex-start"
           margin={2}
         >
-          <IconButton onClick={() => {
+          <IconButton  onClick={() => {
             if (currday <= 0) {
               setCurrday(0);
               console.log(currday);
@@ -55,10 +50,11 @@ export default function ShowCalendar() {
               return (index < 7) ?
                 (
                   <Grid 
-                    spacing={2}
                     direction="column"
                     justifyContent="center"
-                    margin={2}>
+                    alignItems="center"
+                    alignSelf="center"
+                    margin={1}>
                     <Grid item>
                       <Day
                         day={dayNames[index]}
@@ -112,7 +108,6 @@ export default function ShowCalendar() {
           }))
           }
         </Grid>
-      </Grid>
     </>
   )
 }

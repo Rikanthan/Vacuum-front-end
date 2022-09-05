@@ -20,7 +20,7 @@ export default function Schedule(schedule) {
     const booking = schedule.booking;
     const time = schedule.time;
     return (
-        <Card sx={{ width: 150 }} style={{ margin: 5, backgroundColor: "white" }} >
+        <Card sx={{ width: 130 }} style={{ margin: 1, backgroundColor: "white" }} >
             <CardContent>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" >
                    {time}
