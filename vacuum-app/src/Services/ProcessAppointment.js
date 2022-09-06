@@ -11,5 +11,5 @@ export default function CheckAppointment(params) {
         const response = await AppointmentService.getAllAppointmentsByServiceCenter(4);
         setAppointment(response.data);
     }
-    return appointment.includes(params.date);
+    return appointment;
 }

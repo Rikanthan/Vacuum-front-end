@@ -62,12 +62,11 @@ export default function ShowCalendar() {
                         today={index === currday ? true : false}
                         selected={() => {
                           setCurrday(index);
-                          console.log(currday)
-                          console.log(index);
                         }}
                       />
                     </Grid>
-                    <ShowSchedules />
+                    <ShowSchedules 
+                     date = {element}/>
                   </Grid>
                 ) :
                 <CircularProgress />
@@ -96,17 +95,6 @@ export default function ShowCalendar() {
           justifyContent="center"
           margin={2}
         >
-          {(weeks.map((element, index) => {
-            {
-
-              return (index < 7) ?
-                (
-                  null
-                ) :
-                <CircularProgress />
-            }
-          }))
-          }
         </Grid>
     </>
   )
