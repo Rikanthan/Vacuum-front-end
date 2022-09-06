@@ -14,15 +14,19 @@ class App extends Component {
         <Router>
           <Routes>
             <Route path='/' exact element={
-              <ShowCalendar/>}>
+              <ShowCalendar />}>
             </Route>
-            <Route path="/login" element={<Login/>}>
+            <Route path="/login" element={<Login />}>
             </Route>
-            <Route path="/register" element={<Register/>}>
+            <Route path="/register" element={<Register />}>
+            </Route>
+            <Route path="/serviceCenter" element={<ShowServiceCenter />}>
+            </Route>
+            <Route path="/calender" element={<ShowCalendar />}>
             </Route>
           </Routes>
         </Router>
-    </div>
+      </div>
     );
   }
 }
